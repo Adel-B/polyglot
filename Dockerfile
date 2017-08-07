@@ -2,9 +2,12 @@ FROM ubuntu:latest
 MAINTAINER Kirsten Hunter (khunter@akamai.com)
 RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes -q curl python-all wget vim python-pip ruby ruby-dev perl npm nano 
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes mongodb-server mongodb httpie
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes mongodb-server mongodb httpie software-properties-common
 RUN curl -sL https://deb.nodesource.com/setup_4.x |  bash -
 RUN apt-get install -y --force-yes nodejs
+RUN apt-add-repository ppa:brightbox/ruby-ng
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install ruby2.4
 RUN mkdir -p /data/db
 ADD . /opt
 WORKDIR /opt/Chapter5
