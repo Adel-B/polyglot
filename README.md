@@ -36,19 +36,9 @@ To insert the information from the quoteid.json file to get your DB started, use
 # Perl
 `sudo cpan -i -f Dancer Dancer::Plugin::CRUD JSON MongoDB; perl dancer-server.pl`
 
-# PHP
-
-```
-$ php composer.phar install 
-
-$ pecl install mongo
-$ php -i | grep ini - add extension=mongo.so to this file, or create it
-$ php -S 0.0.0.0:8080 -t ./public/ ./public/index.php
-```
-
 # Docker setup
 You can skip all of the setup instructions above and use the docker container if you like.
-First, install docker from http://www.docker.com/toolkit
+First, install docker from http://www.docker.com
 
 Next:
   * Start the docker shortcut utility
@@ -60,7 +50,6 @@ Next:
    * cd perl; perl dancer-server.py
    * cd ruby; ruby sinatra-server.py
    * cd node; node express-server.py
-   * cd php; php -S 0.0.0.0:8080 -t ./public/ ./public/index.php
   * The server will be running on http://localhost:8080
   * Check [http://localhost:8080](http://localhost:8080) to see the welcome message
   * Check [http://localhost:8080/api/quotes](http://localhost:8080/api/quotes) to see the JSON API response
