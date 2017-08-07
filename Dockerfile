@@ -1,7 +1,7 @@
 FROM ubuntu:latest
 MAINTAINER Kirsten Hunter (khunter@akamai.com)
 RUN apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes -q curl python-all wget vim python-pip ruby ruby-dev perl5 npm 
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes -q curl python-all wget vim python-pip ruby ruby-dev perl5-base npm 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes mongodb-server mongodb-dev mongodb httpie
 RUN curl -sL https://deb.nodesource.com/setup_4.x |  bash -
 RUN apt-get install -y --force-yes nodejs
