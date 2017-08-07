@@ -1,10 +1,10 @@
 // *******************************************
 // DATABASE SETUP ****************************
 // *******************************************
-let MongoClient = require('mongodb').MongoClient;
-let url = 'mongodb://localhost:27017/test'
-let quotes
-let topquote
+var MongoClient = require('mongodb').MongoClient;
+var url = 'mongodb://localhost:27017/test'
+var quotes
+var topquote
 
 // *******************************************
 // EXPRESS SETUP  ****************************
@@ -25,7 +25,7 @@ app.set('json spaces', 2);
 // *******************************************
 
 // index with helpful message
-app.get('/', (request, reply) => {
+app.get('/', function(request, reply) {
   reply.send('Hello world from express');
 });
 
@@ -37,12 +37,12 @@ app.use('/api', router);
 
 // QUOTE LIST
 router.route('/quotes')
-  .get((request, reply) => {
+  .get(function(request, reply)  {
       quotes.find().sort({index:-1}).limit(10).toArray((err, results) => {
 	      reply.send(results)
       })
   })
-  .post((request, reply) => {
+  .post(function(request, reply) {
     // There has to be at *least* a content field
     if(!request.body.hasOwnProperty('content')) {
       return reply.status(400).send('Error 400: Post syntax incorrect.');
@@ -60,15 +60,15 @@ router.route('/quotes')
     }
 
     // Save the new quote
-    quotes.save(quoteBody, (err, result) => {
+    quotes.save(quoteBody, function(err, result) {
       return reply.status(201).send({"index":topquote});
     })
   })
 
 // RANDOM QUOTE FROM THE DATABASE
 router.route('/quotes/random')
-  .get((request, reply) => {
-    let random = Math.floor(Math.random()*topquote)
+  .get(function(request, reply) {
+    var random = Math.floor(Math.random()*topquote)
     console.log(random)
     quotes.findOne({"index":random}, (err, results) => {
        reply.send(results)
@@ -77,15 +77,15 @@ router.route('/quotes/random')
 
 // SINGLE QUOTE
 router.route('/quotes/:index')
-  .get((request, reply) => {
+  .get(function(request, reply) {
     index = parseInt(request.params.index)
     quotes.findOne({"index":index}, (err, results) => {
        reply.send(results)
     })
   })
-  .put((request, reply) => {
-    let newQuote = {};
-    let query = {'index':parseInt(request.params.index)}
+  .put(function(request, reply) {
+    var newQuote = {};
+    var query = {'index':parseInt(request.params.index)}
     if(!request.body.hasOwnProperty('content')) {
       return reply.status(400).send('Error 400: Put syntax incorrect.');
     } else {
@@ -97,12 +97,12 @@ router.route('/quotes/:index')
       newQuote["author"] = request.body.author;
     }
 
-    quotes.findOneAndUpdate(query, newQuote, {upsert:true}, (err, results) => {
+    quotes.findOneAndUpdate(query, newQuote, {upsert:true}, function(err, results) {
       if (err) return reply.send(500, { error: err });
       return reply.status(201).send({"index":request.params.index});
     })
   })
-  .delete((request, reply) => {
+  .delete(function(request, reply) {
     let query = {'index':parseInt(request.params.index)}
     quotes.findOneAndDelete(query, (err, results) => {
       reply.status(204).send();
@@ -114,7 +114,7 @@ router.route('/quotes/:index')
 // SERVERS ************************************
 // ********************************************
 
-MongoClient.connect(url, (err, database) => {
+MongoClient.connect(url, function(err, database)  {
     if (err) return console.log(err)
     console.log("Connected successfully to database server");
     quotes = database.collection('quotes')
