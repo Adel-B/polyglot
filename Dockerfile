@@ -19,5 +19,6 @@ RUN cpan -i -f Dancer Dancer::Plugin::CRUD MongoDB JSON YAML
 WORKDIR /opt/Chapter1
 EXPOSE 8080
 ADD ./MOTD /opt/MOTD
+RUN echo "PS1='[ Polyglot Course: \w ] >> '" >> /root/.bashrc
 RUN echo "cat /opt/MOTD" >> /root/.bashrc
 ENTRYPOINT ["/bin/bash"]
