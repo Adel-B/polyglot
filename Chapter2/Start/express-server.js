@@ -50,7 +50,7 @@ router.route('/quotes')
     topquote += 1;
 
     // Create the object from the POST body
-    let quoteBody = {
+    var quoteBody = {
       "content":request.body.content,
       "index":topquote
     } 
@@ -103,7 +103,7 @@ router.route('/quotes/:index')
     })
   })
   .delete(function(request, reply) {
-    let query = {'index':parseInt(request.params.index)}
+    var query = {'index':parseInt(request.params.index)}
     quotes.findOneAndDelete(query, (err, results) => {
       reply.status(204).send();
     })
