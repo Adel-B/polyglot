@@ -7,16 +7,16 @@ RUN curl -sL https://deb.nodesource.com/setup_4.x |  bash -
 RUN apt-get install -y --force-yes nodejs
 RUN mkdir -p /data/db
 ADD . /opt
-WORKDIR /opt/ruby
+WORKDIR /opt/Chapter5
 RUN gem install bundler
 RUN bundle install
-WORKDIR /opt/python
+WORKDIR /opt/Chapter4
 RUN pip install -r requirements.txt
-WORKDIR /opt/node
+WORKDIR /opt/Chapter2
 RUN npm install
-WORKDIR /opt/perl
+WORKDIR /opt/Chapter3
 RUN cpan -i -f Dancer Dancer::Plugin::CRUD MongoDB JSON YAML
-WORKDIR /opt/data
+WORKDIR /opt/Chapter1
 EXPOSE 8080
 ADD ./MOTD /opt/MOTD
 RUN echo "cat /opt/MOTD" >> /root/.bashrc
