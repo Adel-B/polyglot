@@ -1,9 +1,7 @@
 # polyglot
 Code for my Becoming a Polyglot talk
 
-Slides are available at: http://www.slideshare.net/synedra/polyglot-copy
-
-Many people understand the very basics of several languages, all the way to Hello World. However, this isn’t a full fledged application and it’s challenging to make the translations in your head between all the different dialects (interpreted languages aren’t really different from each other like different languages – they work very much the same and the only difference is in the structure of the language). Out in our community are many people who firmly believe that moving from Ruby to Perl is not possible, that it’s very difficult to learn a new language, that it makes no sense to try to understand what “foreign” code might be doing.
+Many people understand the very basics of several languages, all the way to Hello World. However, this is too simple to learn from, and it’s challenging to make the translations in your head between all the different dialects (interpreted languages aren’t really different from each other like different languages – they work very much the same and the only difference is in the structure of the language). Out in our community are many people who firmly believe that moving from Ruby to Perl is not possible, that it’s very difficult to learn a new language, that it makes no sense to try to understand what “foreign” code might be doing.
 
 In this repository are examples in several languages of a basic API in a common framework for that language.  They all use the same mongodb backend, and all use the same single page HTML application.
 
@@ -17,7 +15,6 @@ The following paths work in each environment:
 
 # Setup
 You will need to have mongodb installed and running.  Installation info for the major platforms is at https://docs.mongodb.org/manual/installation/
-
 
 To insert the information from the quoteid.json file to get your DB started, use the following command:
 
@@ -36,19 +33,9 @@ To insert the information from the quoteid.json file to get your DB started, use
 # Perl
 `sudo cpan -i -f Dancer Dancer::Plugin::CRUD JSON MongoDB; perl dancer-server.pl`
 
-# PHP
-
-```
-$ php composer.phar install 
-
-$ pecl install mongo
-$ php -i | grep ini - add extension=mongo.so to this file, or create it
-$ php -S 0.0.0.0:8080 -t ./public/ ./public/index.php
-```
-
 # Docker setup
 You can skip all of the setup instructions above and use the docker container if you like.
-First, install docker from http://www.docker.com/toolkit
+First, install docker from http://www.docker.com
 
 Next:
   * Start the docker shortcut utility
@@ -60,7 +47,6 @@ Next:
    * cd perl; perl dancer-server.py
    * cd ruby; ruby sinatra-server.py
    * cd node; node express-server.py
-   * cd php; php -S 0.0.0.0:8080 -t ./public/ ./public/index.php
   * The server will be running on http://localhost:8080
   * Check [http://localhost:8080](http://localhost:8080) to see the welcome message
   * Check [http://localhost:8080/api/quotes](http://localhost:8080/api/quotes) to see the JSON API response

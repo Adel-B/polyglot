@@ -1,4 +1,4 @@
-FROM python:2.7.10
+FROM ubuntu:latest
 MAINTAINER Kirsten Hunter (khunter@akamai.com)
 RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes -q curl python-all wget vim python-pip php-pear php5 php5-mongo php5-dev ruby ruby-dev perl5 npm 
@@ -16,8 +16,6 @@ WORKDIR /opt/node
 RUN npm install
 WORKDIR /opt/perl
 RUN cpan -i -f Dancer Dancer::Plugin::CRUD MongoDB JSON YAML
-WORKDIR /opt/php
-RUN php composer.phar install
 WORKDIR /opt/data
 EXPOSE 8080
 ADD ./MOTD /opt/MOTD
