@@ -10,11 +10,11 @@ ADD . /opt
 WORKDIR /opt/Chapter5
 RUN gem install bundler
 RUN bundle install
-WORKDIR /opt/Chapter4
+WORKDIR /opt/Chapter3
 RUN pip install -r requirements.txt
 WORKDIR /opt/Chapter2
 RUN npm install
-WORKDIR /opt/Chapter3
+WORKDIR /opt/Chapter4
 RUN cpan -i -f Dancer Dancer::Plugin::CRUD MongoDB JSON YAML
 WORKDIR /opt/Chapter1
 EXPOSE 8080
