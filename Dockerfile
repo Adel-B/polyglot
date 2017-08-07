@@ -7,7 +7,7 @@ RUN curl -sL https://deb.nodesource.com/setup_4.x |  bash -
 RUN apt-get install -y --force-yes nodejs
 RUN apt-add-repository ppa:brightbox/ruby-ng
 RUN apt-get update
-RUN apt-get install -y --force_yes ruby2.4
+RUN apt-get install -y --force-yes ruby2.4
 RUN mkdir -p /data/db
 ADD . /opt
 WORKDIR /opt/Chapter5
