@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, Response, send_from_directory
-
 from flask_restful import reqparse, abort, Api, Resource
 from flask_pymongo import PyMongo
+
 from bson.json_util import dumps, default
 import os
 from random import randint
@@ -16,7 +16,6 @@ parser = reqparse.RequestParser()
 parser.add_argument('author')
 parser.add_argument('content')
 
-
 class QuoteList(Resource):
     def get(self):
         quotes = mongo.db.quotes.find().sort("index", -1).limit(10)
@@ -26,7 +25,12 @@ class QuoteList(Resource):
 
 class Quote(Resource):
     def get(self, quote_id):
-        quotes = mongo.db.quotes.find_one({"index": int(quote_id)})
+        quote_query = quote_id
+        if quote_id == "random":
+            quotes = mongo.db.quotes.find().sort("index", -1).limit(1)
+            max_number = int(quotes[0]["index"])
+            quote_query = randint(0, max_number)
+        quotes = mongo.db.quotes.find_one({"index": int(quote_query)})
         resp = Response(dumps(quotes, default=default, indent=2),
                         mimetype='application/json')
         return resp
@@ -39,7 +43,7 @@ def hello_world():
 @app.route('/demo/')
 def serve_page():
     APP_ROOT = os.path.dirname(os.path.abspath(__file__))
-    STATIC_ROOT = os.path.join(APP_ROOT, "..", "static")
+    STATIC_ROOT = os.path.join(APP_ROOT, "..", "..","..","static")
     return send_from_directory(STATIC_ROOT, "index.html")
 
 

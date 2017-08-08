@@ -26,8 +26,12 @@ class QuoteList(Resource):
 
     def post(self):
         args = parser.parse_args()
+        if not (args['content'] and args['author']):
+            return 'Missing data', 400
+
         quotes = mongo.db.quotes.find().sort("index", -1).limit(1)
         args["index"] = int(quotes[0]["index"]) + 1
+
         try:
             mongo.db.quotes.insert(args)
         except Error as ve:
@@ -38,13 +42,12 @@ class QuoteList(Resource):
 
 class Quote(Resource):
     def get(self, quote_id):
+        quote_query = quote_id
         if quote_id == "random":
             quotes = mongo.db.quotes.find().sort("index", -1).limit(1)
             max_number = int(quotes[0]["index"])
-            rand_quote = randint(0, max_number)
-            quotes = mongo.db.quotes.find_one({"index": int(rand_quote)})
-        else:
-            quotes = mongo.db.quotes.find_one({"index": int(quote_id)})
+            quote_query = randint(0, max_number)
+        quotes = mongo.db.quotes.find_one({"index": int(quote_query)})
         resp = Response(dumps(quotes, default=default, indent=2),
                         mimetype='application/json')
         return resp
