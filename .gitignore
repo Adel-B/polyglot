@@ -1,3 +1,4 @@
 
 # Ignore the local perl development logs
 perl/logs/*
+*/node_modules/*
