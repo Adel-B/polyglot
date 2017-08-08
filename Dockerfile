@@ -7,7 +7,7 @@ RUN curl -sL https://deb.nodesource.com/setup_4.x |  bash -
 RUN apt-get install -y --force-yes nodejs
 RUN apt-add-repository ppa:brightbox/ruby-ng
 RUN apt-get update
-RUN apt-get install -y --force-yes ruby2.4
+RUN apt-get install -y --force-yes ruby2.4 ruby2.4-dev
 RUN mkdir -p /data/db
 ADD . /opt
 WORKDIR /opt/Chapter5
@@ -22,7 +22,7 @@ RUN cpan -i -f Dancer Dancer::Plugin::CRUD MongoDB JSON YAML
 WORKDIR /opt/Chapter1
 EXPOSE 8080
 ADD ./MOTD /opt/MOTD
-RUN echo "shell "/bin/bash" >> /root/.screenrc
+RUN echo 'shell "/bin/bash"' >> /root/.screenrc
 RUN echo "PS1='[ Polyglot Course: \w ] >> '" >> /root/.bashrc
 RUN echo "cat /opt/MOTD" >> /root/.bashrc
 ENTRYPOINT ["/bin/bash"]
