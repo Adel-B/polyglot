@@ -113,7 +113,7 @@ def hello_world():
 @app.route('/demo/')
 def serve_page():
     APP_ROOT = os.path.dirname(os.path.abspath(__file__))
-    STATIC_ROOT = os.path.join(APP_ROOT, "..", "static")
+    STATIC_ROOT = os.path.join(APP_ROOT, "..", "..", "..", "static")
     return send_from_directory(STATIC_ROOT, "index.html")
 
 
