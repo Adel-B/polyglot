@@ -16,7 +16,7 @@ var router = express.Router();
 var path = require('path');
 var bodyParser = require('body-parser');
 
-app.use('/demo', express.static(path.join(__dirname, '..', '..', 'static')));
+app.use('/demo', express.static(path.join(__dirname, '..', '..', static')));
 app.use(bodyParser.json());
 app.set('json spaces', 2);
 
@@ -83,23 +83,7 @@ router.route('/quotes/:index')
     })
   })
   .put(function(request, reply) {
-    var newQuote = {};
-    var query = {'index':parseInt(request.params.index)}
-    if(!request.body.hasOwnProperty('content')) {
-      return reply.status(400).send('Error 400: Put syntax incorrect.');
-    } else {
-      newQuote["content"] = request.body.content;
-      newQuote["index"] = parseInt(request.params.index);
-    }
-
-    if (request.body.hasOwnProperty('author')) {
-      newQuote["author"] = request.body.author;
-    }
-
-    quotes.findOneAndUpdate(query, newQuote, {upsert:true}, function(err, results) {
-      if (err) return reply.send(500, { error: err });
-      return reply.status(201).send({"index":request.params.index});
-    })
+    return reply.status(201).send({"index":request.params.index});
   })
 
 // ********************************************

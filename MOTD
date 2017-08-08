@@ -1,6 +1,6 @@
 ===========================================================================================
 =  Welcome to the Docker Container for the Lynda Polyglot Class                           =
 ===========================================================================================
-=   /etc/init.d/mongodb start                                                             =
-=   mongoimport --collection quotes --file quoteid.json --type json --jsonArray           =
+=   >> mongod                                                                             =
+=   >> mongoimport --collection quotes --file quotes.json --jsonArray                     =
 ===========================================================================================

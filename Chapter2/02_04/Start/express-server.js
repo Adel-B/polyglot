@@ -16,7 +16,7 @@ var router = express.Router();
 var path = require('path');
 var bodyParser = require('body-parser');
 
-app.use('/demo', express.static(path.join(__dirname, '..', '..', 'static')));
+app.use('/demo', express.static(path.join(__dirname, '..', '..', static')));
 app.use(bodyParser.json());
 app.set('json spaces', 2);
 
@@ -83,7 +83,7 @@ router.route('/quotes/:index')
     })
   })
   .put(function(request, reply) {
-      return reply.status(201).send({"index":request.params.index});
+      return reply.status(201).send("Update");
   })
 
 

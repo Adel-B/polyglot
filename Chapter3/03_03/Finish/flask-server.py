@@ -72,17 +72,6 @@ class Quote(Resource):
         resp_obj = {"index": quote_id}
         return resp_obj, 201
 
-    def delete(self, quote_id):
-        try:
-            mongo.db.quotes.remove({
-                'index': int(quote_id)
-            })
-        except Exception as ve:
-            print (ve)
-            abort(400, str(ve))
-        return '', 204
-
-
 @app.route('/')
 def hello_world():
     return 'Hello from Flask!'
