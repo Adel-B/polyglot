@@ -83,27 +83,26 @@ router.route('/quotes/:index')
     })
   })
   .put(function(request, reply) {
-    var newQuote = {};
-    var query = {'index':parseInt(request.params.index)}
+    var index = parseInt(request.params.index);
     if(!request.body.hasOwnProperty('content')) {
       return reply.status(400).send('Error 400: Put syntax incorrect.');
-    } else {
-      newQuote["content"] = request.body.content;
-      newQuote["index"] = parseInt(request.params.index);
     }
+    var quoteBody = {
+      "content":request.body.content,
+      "index":index
+    } 
 
     if (request.body.hasOwnProperty('author')) {
-      newQuote["author"] = request.body.author;
+      quoteBody["author"] = request.body.author
     }
 
-    quotes.findOneAndUpdate(query, newQuote, {upsert:true}, function(err, results) {
-      if (err) return reply.send(500, { error: err });
-      return reply.status(201).send({"index":request.params.index});
+    quotes.findOneAndUpdate({index:index}, quoteBody, {upsert:true}, function(err, results) {
+      return reply.status(201).send({"index":index});
     })
   })
   .delete(function(request, reply) {
-    var query = {'index':parseInt(request.params.index)}
-    quotes.findOneAndDelete(query, (err, results) => {
+    var index = parseInt(request.params.index)
+    quotes.findOneAndDelete({index:parseInt(request.params.index)}, function(err, results) {
       reply.status(204).send();
     })
   })
@@ -120,7 +119,7 @@ MongoClient.connect(url, function(err, database)  {
 
     // Find the largest index for creating new quotes
     quotes.find().sort({"index": -1}).limit(1).toArray((err, quote) => {
-      topquote = quote[0]["index"]
+      topquote = parseInt(quote[0]["index"])
     })
 
     app.listen(8080, "0.0.0.0", function() {

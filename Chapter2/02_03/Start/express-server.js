@@ -16,7 +16,7 @@ var router = express.Router();
 var path = require('path');
 var bodyParser = require('body-parser');
 
-app.use('/demo', express.static(path.join(__dirname, '..', '..', 'static')));
+app.use('/demo', express.static(path.join(__dirname, '..', '..', '..','static')));
 app.use(bodyParser.json());
 app.set('json spaces', 2);
 
@@ -38,7 +38,7 @@ app.use('/api', router);
 // QUOTE LIST
 router.route('/quotes')
   .get(function(request, reply)  {
-      quotes.find().sort({index:-1}).limit(10).toArray((err, results) => {
+      quotes.find().sort({index:-1}).limit(10).toArray(function(err, results) {
 	      reply.send(results)
       })
   })
@@ -46,14 +46,16 @@ router.route('/quotes')
 // RANDOM QUOTE FROM THE DATABASE
 router.route('/quotes/random')
   .get(function(request, reply) {
-    reply.send("Random")
+    quotes.findOne({"index":1}, function(err, results) {
+       reply.send(results)
+    })
   })
 
 // SINGLE QUOTE
 router.route('/quotes/:index')
   .get(function(request, reply) {
     index = parseInt(request.params.index)
-    quotes.findOne({"index":index}, (err, results) => {
+    quotes.findOne({"index":index}, function(err, results) {
        reply.send(results)
     })
   })

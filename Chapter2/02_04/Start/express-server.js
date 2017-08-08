@@ -16,7 +16,7 @@ var router = express.Router();
 var path = require('path');
 var bodyParser = require('body-parser');
 
-app.use('/demo', express.static(path.join(__dirname, '..', '..', static')));
+app.use('/demo', express.static(path.join(__dirname, '..', '..', '..', 'static')));
 app.use(bodyParser.json());
 app.set('json spaces', 2);
 
@@ -43,7 +43,6 @@ router.route('/quotes')
       })
   })
   .post(function(request, reply) {
-    // There has to be at *least* a content field
     if(!request.body.hasOwnProperty('content')) {
       return reply.status(400).send('Error 400: Post syntax incorrect.');
     }
@@ -83,7 +82,7 @@ router.route('/quotes/:index')
     })
   })
   .put(function(request, reply) {
-      return reply.status(201).send("Update");
+    return reply.status(201).send("Update");
   })
 
 

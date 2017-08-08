@@ -16,7 +16,7 @@ var router = express.Router();
 var path = require('path');
 var bodyParser = require('body-parser');
 
-app.use('/demo', express.static(path.join(__dirname, '..', '..', static')));
+app.use('/demo', express.static(path.join(__dirname, '..', '..', '..', 'static')));
 app.use(bodyParser.json());
 app.set('json spaces', 2);
 
@@ -43,7 +43,6 @@ router.route('/quotes')
       })
   })
   .post(function(request, reply) {
-    // There has to be at *least* a content field
     if(!request.body.hasOwnProperty('content')) {
       return reply.status(400).send('Error 400: Post syntax incorrect.');
     }
@@ -83,8 +82,26 @@ router.route('/quotes/:index')
     })
   })
   .put(function(request, reply) {
-    return reply.status(201).send({"index":request.params.index});
+    index = parseInt(request.params.index);
+    query = {"index":index};
+        if(!request.body.hasOwnProperty('content')) {
+      return reply.status(400).send('Error 400: Put syntax incorrect.');
+    }
+    
+    // Create the object from the POST body
+    var quoteBody = {
+      "content":request.body.content,
+      "index":index
+    } 
+
+    if (request.body.hasOwnProperty('author')) {
+      quoteBody["author"] = request.body.author
+    }
+    quotes.findOneAndUpdate(query, quoteBody, {upsert:true}, function(err,results) {
+      return reply.status(201).send({"index":index});
+    })
   })
+
 
 // ********************************************
 // SERVERS ************************************
