@@ -56,16 +56,19 @@ end
       quote = Quote.find_by(index: params[:index].to_i).to_json
     end
 
-   # update
+      # update
     put '/quotes/:index' do
       json = JSON.parse(request.body.read)
       quote = Quote.find_by(index: params[:index].to_i)
 
-      quote.update(
-                        content: json['content'], 
-                        author: json['author']
-                  )
-      quote.save
+      if json['content'] then
+        quote.update(content: json['content'])
+      end
+
+      if json['author'] then
+        quote.update(author: json['author'])
+      end
+
       return_obj = {"index" => params[:index].to_i}
       return [201, return_obj.to_json]
     end
