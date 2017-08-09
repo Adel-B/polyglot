@@ -1,5 +1,5 @@
 ===========================================================================================
-=  Welcome to the Docker Container for the Lynda Polyglot Class                           =
+=  Welcome to the Docker Container for the Polyglot Class                                 =
 ===========================================================================================
 =   >> mongod                                                                             =
 =   >> mongoimport --collection quotes --file quotes.json --jsonArray                     =
