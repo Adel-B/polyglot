@@ -15,6 +15,7 @@ Mongoid.load!("mongoid.yml", :development)
 set :port, 8080
 set :bind, '0.0.0.0'
 
+
 before do
   content_type 'application/json', :charset => 'utf-8'
 end
@@ -25,12 +26,12 @@ end
       Quote.all.desc(:index).limit(10).to_json
     end
 
-     # create
+    # create
     post '/quotes' do
       top = Quote.all.desc(:index).limit(1)
       newnumber = top[0][:index] + 1
       json = JSON.parse(request.body.read)
-      if not json['content']  then
+      if not json['content'] then
         return [400, "New quotes must include content"]
       end
       quote = Quote.new(
@@ -55,7 +56,6 @@ end
       Quote.find_by(index: params[:index].to_i).to_json
     end
 
-   # update
     put '/quotes/:index' do
       json = JSON.parse(request.body.read)
       quote = Quote.find_by(index: params[:index].to_i)
@@ -63,13 +63,12 @@ end
       if json['content'] then
         quote.update(content: json['content'])
       end
-
       if json['author'] then
         quote.update(author: json['author'])
       end
-
       return_obj = {"index" => params[:index].to_i}
       return [201, return_obj.to_json]
+
     end
   end
 

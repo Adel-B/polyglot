@@ -41,7 +41,7 @@ get '/' => sub{
     return {message => "Hello from Perl and Dancer"};
 };
 
-set public => path(dirname(__FILE__), '..', 'static');
+set public => path(dirname(__FILE__));
 
 get "/demo/?" => sub {
     send_file '/index.html'

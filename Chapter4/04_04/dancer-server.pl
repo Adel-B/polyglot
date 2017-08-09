@@ -64,22 +64,35 @@ get '/api/quotes/:index' => sub {
 };
 
 put '/api/quotes/:index' => sub {
+    my $index = int(params->{index});
     if (!params->{content} && !params->{author}) {
         status 400;
-        return {message => "Content or author is required for updated quotes."};
-    }
-    my $original = $quotes->find_one({index => int(params->{'index'})}); 
-    my $author = $original->{author};
-    my $content = $original->{content};
-    if (params->{author}) { $author = params->{author}}
-    if (params->{content}) { $content = params->{content}}
-    
-    my $response = $quotes->update_one({'index' => params->{index}}, 
-                        {'$set' => {'author'=>$author, 'content'=>$content}});
+        return {message => "Author or content are required for update"}
+    };
+    my $original = $quotes->find_one({index => $index});
+    my $content = params->{content} ? params->{content} : $original->{content};
+    my $author = params->{author} ? params->{author} : $original->{author};
 
-    status 201;
-    return {"index"=>params->{'index'}};
+    my $response = $quotes->update_one({index => $index},
+    {
+        '$set' =>
+            {'author' => $author, 'content' => $content}
+    });
+    status 202;
+    return {"index"=>$index};
 };
+
+#del '/api/quotes/:index' => sub {
+#    my $response = $quotes->find_one({"index" => int(params->{'index'})}); 
+#    if (!$response) {
+#        status 404;
+#        return;
+#    }
+#    $quotes->delete_one({index => int(params->{'index'})});
+#    status 204;
+#    return;
+#};
+
 
 del '/api/quotes/:index' => sub {
     my $response = $quotes->delete_one({index => int(params->{'index'})});
@@ -95,7 +108,7 @@ get '/' => sub{
     return {message => "Hello from Perl and Dancer"};
 };
 
-set public => path(dirname(__FILE__), '..', 'static');
+set public => path(dirname(__FILE__));
 
 get "/demo/?" => sub {
     send_file '/index.html'

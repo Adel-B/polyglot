@@ -62,22 +62,19 @@ put '/api/quotes/:index' => sub {
     my $index = int(params->{index});
     if (!params->{content} && !params->{author}) {
         status 400;
-        return {message => "Author or Content are required for update"};
-    }
-       
+        return {message => "Author or content are required for update"}
+    };
     my $original = $quotes->find_one({index => $index});
-    my $content = params->{content} ? params->{content} : $original->{content}
-    my $author = params->{author} ? params->{author} : $original->{author}
-    
-    my $response = $quotes->update_one({index => $index}, 
+    my $content = params->{content} ? params->{content} : $original->{content};
+    my $author = params->{author} ? params->{author} : $original->{author};
+
+    my $response = $quotes->update_one({index => $index},
     {
-        '$set' => 
+        '$set' =>
             {'author' => $author, 'content' => $content}
     });
-
     status 202;
     return {"index"=>$index};
-
 };
 
 
