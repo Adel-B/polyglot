@@ -40,7 +40,6 @@ post '/api/quotes' => sub {
     return {"index"=>$max_id};
 };
 
-
 get '/api/quotes/random' => sub {
     my $max_item = $quotes->find()->sort({'index' => -1})->limit(1);
     my $quote = $max_item->next;
@@ -59,12 +58,36 @@ get '/api/quotes/:index' => sub {
     return $response;
 };
 
+put '/api/quotes/:index' => sub {
+    my $index = int(params->{index});
+    if (!params->{content} && !params->{author}) {
+        status 400;
+        return {message => "Author or Content are required for update"};
+    }
+    
+    my $original = $quotes->find_one({index => $index});
+    my $author = $original->{author};
+    my $content = $original->{content};
+    if (params->{author}) { $author = params->{author} };
+    if (params->{content}) { $content = params->{content} };
+    
+    my $response = $quotes->update_one({index => $index}, 
+    {
+        '$set' => 
+            {'author' => $author, 'content' => $content}
+    });
+
+    status 202;
+    return {"index"=>$index};
+
+};
+
 
 get '/' => sub{
     return {message => "Hello from Perl and Dancer"};
 };
 
-set public => path(dirname(__FILE__), '..', 'static');
+set public => path(dirname(__FILE__));
 
 get "/demo/?" => sub {
     send_file '/index.html'

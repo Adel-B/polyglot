@@ -15,19 +15,11 @@ get '/api/quotes' => sub {
                          }
                 );
         } 
-        if (! scalar (@results)) {
-            status 404;
-            return;
-        }
         return \@results;
 };
 
 get '/api/quotes/:index' => sub {
     my $response = $quotes->find_one({"index" => int(params->{'index'})}); 
-    if (!$response) {
-        status 404;
-        return;
-    }
     return $response;
 };
 

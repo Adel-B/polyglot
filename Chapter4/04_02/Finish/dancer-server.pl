@@ -19,12 +19,12 @@ get '/api/quotes' => sub {
 };
 
 get '/api/quotes/random' => sub {
-    my $max_item = $quotes->find()->sort({'index' => -1})->limit(1);
-    my $quote = $max_item->next;
-    my $max_id = $quote->{'index'};
-    my $random = int(rand($max_id));
-    my $response = $quotes->find_one({"index" => $random});
-    return $response;
+    my $response = $quotes->find()->sort({'index' => -1})->limit(1);
+    my $quote = $response->next;
+    my $max_number = $quote->{'index'};
+    my $random = int(rand($max_number));
+    my $answer = $quotes->find_one({"index" => $random});
+    return $answer;
 };
 
 get '/api/quotes/:index' => sub {
