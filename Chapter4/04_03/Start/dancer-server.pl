@@ -64,12 +64,10 @@ put '/api/quotes/:index' => sub {
         status 400;
         return {message => "Author or Content are required for update"};
     }
-    
+       
     my $original = $quotes->find_one({index => $index});
-    my $author = $original->{author};
-    my $content = $original->{content};
-    if (params->{author}) { $author = params->{author} };
-    if (params->{content}) { $content = params->{content} };
+    my $content = params->{content} ? params->{content} : $original->{content}
+    my $author = params->{author} ? params->{author} : $original->{author}
     
     my $response = $quotes->update_one({index => $index}, 
     {
