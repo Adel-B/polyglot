@@ -26,11 +26,12 @@ end
       Quote.all.desc(:index).limit(10).to_json
     end
 
-    # random quote
     get '/quotes/random' do
       top = Quote.all.desc(:index).limit(1)
-      random_num = rand(top[0][:index])
-      Quote.find_by(index: random_num.to_i).to_json
+      random_num = rand(top[0][:index]).to_i
+      quote = Quote.find_by(index: random_num)
+      return status 404 if quote.nil?
+      quote.to_json
     end
 
     # view one

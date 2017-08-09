@@ -26,21 +26,13 @@ end
       Quote.all.desc(:index).limit(10).to_json
     end
 
-    get '/quotes/random' do
-      newnumber = Quote.count
-      random_num = rand(newnumber)
-      quote = Quote.find_by(index: random_num.to_i)
-      return status 404 if quote.nil?
-      quote.to_json
-    end
-
-     # create
+    # create
     post '/quotes' do
       top = Quote.all.desc(:index).limit(1)
       newnumber = top[0][:index] + 1
       json = JSON.parse(request.body.read)
-      if not json['content'] or not json['author'] then
-        return [400, "Must include content and author"]
+      if not json['content'] then
+        return [400, "New quotes must include content"]
       end
       quote = Quote.new(
                         content: json['content'], 
@@ -53,8 +45,10 @@ end
 
     get '/quotes/random' do
       top = Quote.all.desc(:index).limit(1)
-      random_num = rand(top[0][:index])
-      Quote.find_by(index: random_num.to_i).to_json
+      random_num = rand(top[0][:index]).to_i
+      quote = Quote.find_by(index: random_num)
+      return status 404 if quote.nil?
+      quote.to_json
     end
 
     # view one

@@ -30,13 +30,13 @@ end
     post '/quotes' do
       top = Quote.all.desc(:index).limit(1)
       newnumber = top[0][:index] + 1
-      @json = JSON.parse(request.body.read)
-      if not @json['content'] or not @json['author'] then
-        return [400, "Must include content and author"]
+      json = JSON.parse(request.body.read)
+      if not json['content'] then
+        return [400, "New quotes must include content"]
       end
       quote = Quote.new(
-                        content: @json['content'], 
-                        author: @json['author'], 
+                        content: json['content'], 
+                        author: json['author'], 
                         index: newnumber)
       quote.save
       return_obj = {"index" => newnumber}
@@ -45,23 +45,25 @@ end
 
     get '/quotes/random' do
       top = Quote.all.desc(:index).limit(1)
-      random_num = rand(top[0][:index])
-      Quote.find_by(index: random_num.to_i).to_json
+      random_num = rand(top[0][:index]).to_i
+      quote = Quote.find_by(index: random_num)
+      return status 404 if quote.nil?
+      quote.to_json
     end
 
     # view one
     get '/quotes/:index' do
-      Quote.find_by(index: params[:index].to_i).to_json
+      quote = Quote.find_by(index: params[:index].to_i).to_json
     end
 
    # update
     put '/quotes/:index' do
-      @json = JSON.parse(request.body.read)
+      json = JSON.parse(request.body.read)
       quote = Quote.find_by(index: params[:index].to_i)
 
       quote.update(
-                        content: @json['content'], 
-                        author: @json['author']
+                        content: json['content'], 
+                        author: json['author']
                   )
       quote.save
       return_obj = {"index" => params[:index].to_i}
