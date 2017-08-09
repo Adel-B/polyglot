@@ -26,14 +26,6 @@ end
       Quote.all.desc(:index).limit(10).to_json
     end
 
-    get '/quotes/random' do
-      newnumber = Quote.count
-      random_num = rand(newnumber)
-      quote = Quote.find_by(index: random_num.to_i)
-      return status 404 if quote.nil?
-      quote.to_json
-    end
-
      # create
     post '/quotes' do
       top = Quote.all.desc(:index).limit(1)

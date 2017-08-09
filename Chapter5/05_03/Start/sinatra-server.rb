@@ -38,13 +38,13 @@ end
     post '/quotes' do
       top = Quote.all.desc(:index).limit(1)
       newnumber = top[0][:index] + 1
-      @json = JSON.parse(request.body.read)
-      if not @json['content'] or not @json['author'] then
+      json = JSON.parse(request.body.read)
+      if not json['content'] or not json['author'] then
         return [400, "Must include content and author"]
       end
       quote = Quote.new(
-                        content: @json['content'], 
-                        author: @json['author'], 
+                        content: json['content'], 
+                        author: json['author'], 
                         index: newnumber)
       quote.save
       return_obj = {"index" => newnumber}
@@ -60,27 +60,6 @@ end
     # view one
     get '/quotes/:index' do
       Quote.find_by(index: params[:index].to_i).to_json
-    end
-
-   # update
-    put '/quotes/:index' do
-      @json = JSON.parse(request.body.read)
-      quote = Quote.find_by(index: params[:index].to_i)
-
-      quote.update(
-                        content: @json['content'], 
-                        author: @json['author']
-                  )
-      quote.save
-      return_obj = {"index" => params[:index].to_i}
-      return [201, return_obj.to_json]
-    end
-
-    delete '/quotes/:index' do
-      quote = Quote.find_by(index: params[:index].to_i)
-      return status 404 if quote.nil?
-      quote.delete
-      status 204
     end
   end
 
