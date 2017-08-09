@@ -15,7 +15,6 @@ Mongoid.load!("mongoid.yml", :development)
 set :port, 8080
 set :bind, '0.0.0.0'
 
-
 before do
   content_type 'application/json', :charset => 'utf-8'
 end
@@ -71,7 +70,7 @@ end
 
 get '/demo*' do
   content_type :html
-  File.read(File.join('../static', 'index.html'))
+  File.read(File.join('../../../static', 'index.html'))
 end
 
 get '/' do

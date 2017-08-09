@@ -78,7 +78,7 @@ end
 
 get '/demo*' do
   content_type :html
-  File.read(File.join('../static', 'index.html'))
+  File.read(File.join('../../static', 'index.html'))
 end
 
 get '/' do
