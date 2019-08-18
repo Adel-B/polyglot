@@ -32,7 +32,7 @@ class Quote(Resource):
 
 @app.route('/')
 def hello_world():
-    return 'Hello from Flask!'
+    return 'Hello from Flask !!'
 
 
 @app.route('/demo/')
